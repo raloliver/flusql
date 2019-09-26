@@ -1,4 +1,5 @@
 import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
 class ConnectionDB {
   //create based on singlenton approach (the same instance for avoid memory leak)
@@ -17,5 +18,19 @@ class ConnectionDB {
     if (_database != null) {
       return _database;
     }
+    //get path of database on local storage (please make attention if you use Android and iOS)
+    var databasePath = await getDatabasesPath();
+    //concat db local with new db for this app
+    final String path = join(databasePath, 'flusqlStore.db');
+
+    //open connection
+    _database = await openDatabase(path, version: 0,
+        onCreate: (Database db, int version) {
+      //run sql commands with .execute()
+      db.execute(
+          'CREATE TABLE users (id INTENGER PRIMARY KEY, name TEXT, email TEXT, enabled INTENGER)');
+    });
+
+    return _database;
   }
 }
