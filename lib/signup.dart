@@ -2,9 +2,6 @@ import 'package:flusql/utils/connections.dart';
 import 'package:flutter/material.dart';
 
 class Signup extends StatefulWidget {
-  var onSaved;
-  Signup({Key key, this.onSaved}) : super(key: key);
-
   @override
   _SignupState createState() => _SignupState();
 }
@@ -75,12 +72,14 @@ class _SignupState extends State<Signup> {
       _formData['email'],
       _formData['enabled'],
     ];
-
+    //await for database connect
     var database = await ConnectionDB.connect();
+    //transaction is better than just insert
     database.transaction((txn) async {
+      //we use ? ? ? to prevent sql injection
       int id = await txn.rawInsert(
           'INSERT INTO users (name, email, enabled) VALUES (?, ?, ?)', data);
-      widget.onSaved();
+      print(id);
     });
   }
 }
