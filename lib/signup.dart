@@ -1,7 +1,11 @@
-import 'package:flusql/utils/connections.dart';
 import 'package:flutter/material.dart';
+import 'package:flusql/utils/connections.dart';
 
 class Signup extends StatefulWidget {
+  var pushUser;
+  //constructor
+  Signup({Key key, this.pushUser}): super (key: key);
+
   @override
   _SignupState createState() => _SignupState();
 }
@@ -79,7 +83,7 @@ class _SignupState extends State<Signup> {
       //we use ? ? ? to prevent sql injection
       int id = await txn.rawInsert(
           'INSERT INTO users (name, email, enabled) VALUES (?, ?, ?)', data);
-      print(id);
+      widget.pushUser();
     });
   }
 }

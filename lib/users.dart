@@ -1,29 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flusql/utils/connections.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:flusql/signup.dart';
 
 class Users extends StatefulWidget {
+  List users;
+  //constructor
+  Users({Key key, this.users}) : super(key: key);
+
   @override
   _UsersState createState() => _UsersState();
 }
 
 class _UsersState extends State<Users> {
-  Database _database;
-  List _users = [];
-
-  void initState() {
-    ConnectionDB.connect().then((database) {
-      _database = database;
-      _database.rawQuery('select * from users').then((data) {
-        setState(() {
-          _users = data;
-        });
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    List _users = widget.users;
     return Expanded(
       child: ListView.builder(
         itemCount: _users.length,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flusql/utils/connections.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:flusql/signup.dart';
 import 'package:flusql/users.dart';
 
@@ -29,6 +30,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Database _database;
+  List _users = [];
+
+  void initState() {
+    getUsers();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,10 +45,23 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: <Widget>[
-          Signup(),
-          Users(),
+          Signup(pushUser: () {
+            getUsers();
+          }),
+          Users(users: _users),
         ],
       ),
     );
+  }
+
+  getUsers() {
+    ConnectionDB.connect().then((database) {
+      _database = database;
+      _database.rawQuery('select * from users').then((data) {
+        setState(() {
+          _users = data;
+        });
+      });
+    });
   }
 }
