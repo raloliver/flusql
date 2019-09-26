@@ -24,7 +24,7 @@ class ConnectionDB {
     final String path = join(databasePath, 'flusqlStore.db');
 
     //open connection
-    _database = await openDatabase(path, version: 0,
+    _database = await openDatabase(path, version: 1,
         onCreate: (Database db, int version) {
       //run sql commands with .execute()
       db.execute(
