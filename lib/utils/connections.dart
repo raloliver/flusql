@@ -10,5 +10,12 @@ class ConnectionDB {
 
   ConnectionDB._internal();
 
-  
+  //starts connection with database only one single time with singlenton approach
+  static Database _database;
+
+  static Future<Database> connect() async {
+    if (_database != null) {
+      return _database;
+    }
+  }
 }
