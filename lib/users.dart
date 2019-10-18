@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flusql/utils/connections.dart';
-import 'package:flusql/signup.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class Users extends StatefulWidget {
   List users;
@@ -19,9 +18,33 @@ class _UsersState extends State<Users> {
       child: ListView.builder(
         itemCount: _users.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(_users[index]['name']),
-            subtitle: Text(_users[index]['email']),
+          return Slidable(
+            actionPane: SlidableBehindActionPane(),
+            child: Container(
+              color: Colors.white,
+              child: ListTile(
+                title: Text(_users[index]['name']),
+                subtitle: Text(_users[index]['email']),
+              ),
+            ),
+            secondaryActions: <Widget>[
+              IconSlideAction(
+                caption: 'Editar',
+                color: Colors.blue,
+                icon: Icons.edit,
+                onTap: () {
+                  print('editar...');
+                },
+              ),
+              IconSlideAction(
+                caption: 'Remover',
+                color: Colors.red,
+                icon: Icons.delete_forever,
+                onTap: () {
+                  print('remover...');
+                },
+              )
+            ],
           );
         },
       ),
