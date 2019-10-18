@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flusql/utils/connections.dart';
 
 class Users extends StatefulWidget {
   List users;
+  var pullUser;
   //constructor
-  Users({Key key, this.users}) : super(key: key);
+  Users({Key key, this.users, this.pullUser}) : super(key: key);
 
   @override
   _UsersState createState() => _UsersState();
@@ -27,13 +29,14 @@ class _UsersState extends State<Users> {
                 subtitle: Text(_users[index]['email']),
               ),
             ),
+            //use just 'actions' do show icons from left
             secondaryActions: <Widget>[
               IconSlideAction(
                 caption: 'Editar',
                 color: Colors.blue,
                 icon: Icons.edit,
                 onTap: () {
-                  print('editar...');
+                  print(_users);
                 },
               ),
               IconSlideAction(
@@ -41,7 +44,12 @@ class _UsersState extends State<Users> {
                 color: Colors.red,
                 icon: Icons.delete_forever,
                 onTap: () {
-                  print('remover...');
+                  ConnectionDB.connect().then((db) {
+                    return db.rawDelete(
+                        'DELETE FROM people WHERE id=?', _users[index]['id']);
+                  }).then((data) {
+                    widget.pullUser();
+                  });
                 },
               )
             ],

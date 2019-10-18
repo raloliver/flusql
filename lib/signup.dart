@@ -77,12 +77,12 @@ class _SignupState extends State<Signup> {
       _formData['enabled'],
     ];
     //await for database connect
-    var database = await ConnectionDB.connect();
+    var db = await ConnectionDB.connect();
     //transaction is better than just insert
-    database.transaction((txn) async {
+    db.transaction((txn) async {
       //we use ? ? ? to prevent sql injection
       int id = await txn.rawInsert(
-          'INSERT INTO users (name, email, enabled) VALUES (?, ?, ?)', data);
+          'INSERT INTO people (name, email, enabled) VALUES (?, ?, ?)', data);
       widget.pushUser();
     });
   }

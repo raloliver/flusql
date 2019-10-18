@@ -48,7 +48,11 @@ class _MyHomePageState extends State<MyHomePage> {
           Signup(pushUser: () {
             getUsers();
           }),
-          Users(users: _users),
+          Users(
+              users: _users,
+              pullUser: () {
+                getUsers();
+              }),
         ],
       ),
     );
@@ -57,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
   getUsers() {
     ConnectionDB.connect().then((database) {
       _database = database;
-      _database.rawQuery('select * from users').then((data) {
+      _database.rawQuery('select * from people').then((data) {
         setState(() {
           _users = data;
         });
