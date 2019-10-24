@@ -45,8 +45,8 @@ class _UsersState extends State<Users> {
                 icon: Icons.delete_forever,
                 onTap: () {
                   ConnectionDB.connect().then((db) {
-                    return db.rawDelete(
-                        'DELETE FROM people WHERE id=?', _users[index]['id']);
+                    return db.delete('people', 
+                        where: 'id=?', whereArgs:[_users[index]['id']]);
                   }).then((data) {
                     widget.pullUser();
                   });
