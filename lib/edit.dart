@@ -93,5 +93,7 @@ class _EditUserState extends State<EditUser> {
     await db.rawUpdate(
         'UPDATE people SET name=?, email=?, enabled=? WHERE id=?', data);
     widget.updateUser();
+    //closed dialog"
+    Navigator.of(context).pop();
   }
 }
