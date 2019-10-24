@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flusql/utils/connections.dart';
+import 'package:flusql/edit.dart';
 
 class Users extends StatefulWidget {
   List users;
@@ -36,7 +37,19 @@ class _UsersState extends State<Users> {
                 color: Colors.blue,
                 icon: Icons.edit,
                 onTap: () {
-                  print(_users);
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Editing User'),
+                          content: EditUser(),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text('Cancelar'),
+                            )
+                          ],
+                        );
+                      });
                 },
               ),
               IconSlideAction(
@@ -45,8 +58,8 @@ class _UsersState extends State<Users> {
                 icon: Icons.delete_forever,
                 onTap: () {
                   ConnectionDB.connect().then((db) {
-                    return db.delete('people', 
-                        where: 'id=?', whereArgs:[_users[index]['id']]);
+                    return db.delete('people',
+                        where: 'id=?', whereArgs: [_users[index]['id']]);
                   }).then((data) {
                     widget.pullUser();
                   });
