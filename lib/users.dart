@@ -42,12 +42,7 @@ class _UsersState extends State<Users> {
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: Text('Editing User'),
-                          content: EditUser(),
-                          actions: <Widget>[
-                            FlatButton(
-                              child: Text('Cancelar'),
-                            )
-                          ],
+                          content: EditUser(getUser: _users[index]),
                         );
                       });
                 },
