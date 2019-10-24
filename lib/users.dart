@@ -5,9 +5,9 @@ import 'package:flusql/edit.dart';
 
 class Users extends StatefulWidget {
   List users;
-  var pullUser;
+  var updateUsers;
   //constructor
-  Users({Key key, this.users, this.pullUser}) : super(key: key);
+  Users({Key key, this.users, this.updateUsers}) : super(key: key);
 
   @override
   _UsersState createState() => _UsersState();
@@ -42,7 +42,11 @@ class _UsersState extends State<Users> {
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: Text('Editing User'),
-                          content: EditUser(getUser: _users[index]),
+                          content: EditUser(
+                              getUser: _users[index],
+                              updateUser: () {
+                                widget.updateUsers();
+                              }),
                         );
                       });
                 },
@@ -56,7 +60,7 @@ class _UsersState extends State<Users> {
                     return db.delete('people',
                         where: 'id=?', whereArgs: [_users[index]['id']]);
                   }).then((data) {
-                    widget.pullUser();
+                    widget.updateUsers();
                   });
                 },
               )

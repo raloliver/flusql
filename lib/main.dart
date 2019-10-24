@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
           }),
           Users(
               users: _users,
-              pullUser: () {
+              updateUsers: () {
                 getUsers();
               }),
         ],
